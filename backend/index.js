@@ -10,7 +10,7 @@ const { PositionsModel } = require("./model/PositionsModel");
 const { OrdersModel } = require("./model/OrdersModel");
 
 const PORT = process.env.PORT || 3002;
-const url = process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGO_URL;
 
 const app = express();
 
@@ -199,11 +199,18 @@ app.post("/newOrder", async (req, res) => {
 
   newOrder.save();
 
-  res.send("Order saved")
+  res.send("Order saved");
 });
 
 app.listen(PORT, () => {
   console.log("App is listening to port ", PORT);
-  mongoose.connect(url);
+  mongoose
+    .connect(MONGO_URL)
+    .then(() => {
+      console.log("MongoDB connected successfully");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   console.log("DB connected!");
 });
