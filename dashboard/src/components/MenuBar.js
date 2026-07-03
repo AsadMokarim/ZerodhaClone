@@ -1,17 +1,34 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import { useCookies } from "react-cookie";
+import MenuItem from "@mui/material/MenuItem";
 
-const Menu = () => {
+const MenuBar = ({ user }) => {
   const [selectedMenu, setSelectedMenu] = useState(0);
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [cookies, removeCookie] = useCookies([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const id = React.useId();
+  const buttonId = `${id}-button`;
+  const menuId = `${id}-menu`;
 
   const handleMenuClick = (index) => {
     setSelectedMenu(index);
   };
 
-  const handleProfileClick = (index) => {
-    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+  const handleProfileClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  function handleLogout() {
+    removeCookie("token");
+    window.location.href = "http://localhost:3000/";
+  }
 
   const menuClass = "menu";
   const activeMenuClass = "menu selected";
@@ -91,12 +108,25 @@ const Menu = () => {
         <hr />
         <div className="profile" onClick={handleProfileClick}>
           <div className="avatar">ZU</div>
-          <p className="username">USERID</p>
+          <p className="username">{user}</p>
         </div>
-        {isProfileDropdownOpen}
+        <Menu
+          id={menuId}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          slotProps={{
+            list: {
+              "aria-labelledby": buttonId,
+            },
+          }}
+        >
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
+        {/* {isProfileDropdownOpen? "Hi": ""} */}
       </div>
     </div>
   );
 };
 
-export default Menu;
+export default MenuBar;

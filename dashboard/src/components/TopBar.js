@@ -1,8 +1,8 @@
 import React from "react";
 
-import Menu from "./Menu";
+import MenuBar from "./MenuBar";
 
-const TopBar = () => {
+const TopBar = ({user}) => {
   return (
     <div className="topbar-container">
       <div className="indices-container">
@@ -18,7 +18,7 @@ const TopBar = () => {
         </div>
       </div>
 
-      <Menu />
+      <MenuBar user={user} />
     </div>
   );
 };

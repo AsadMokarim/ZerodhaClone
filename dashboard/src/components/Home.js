@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
+import { ToastContainer } from "react-toastify";
 
 import Dashboard from "./Dashboard";
 import TopBar from "./TopBar";
 
-const Home = () => {
+const Home = ({user="demo"}) => {
+  useEffect(() => {
+    document.title = "Dashboard";
+  }, []);
   return (
     <>
-      <TopBar />
+      <TopBar user={user}/>
       <Dashboard />
+      <ToastContainer />
     </>
   );
 };
