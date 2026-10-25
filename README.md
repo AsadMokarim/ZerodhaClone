@@ -1,70 +1,123 @@
-# Getting Started with Create React App
+# Zerodha Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack Zerodha clone for learning and demonstration. It contains a
+public-facing site, a trading dashboard, and an Express API backed by MongoDB.
+This project is not affiliated with or endorsed by Zerodha.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Public landing pages for home, products, pricing, about, and support
+- User signup and login with cookie-based JWT authentication
+- Protected trading dashboard
+- Watchlist and dashboard views for holdings, positions, orders, and funds
+- Buy-order entry through the dashboard
+- Portfolio visualizations using charts
+- MongoDB persistence for user, order, holding, and position data
 
-### `npm start`
+## Project structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```text
+.
+├── backend/    Express API, authentication, and MongoDB models
+├── dashboard/  React trading dashboard
+└── frontend/   React public site, signup, and login pages
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The frontend and dashboard are separate Create React App applications. Run each
+from its own directory; there is no root-level npm start command.
 
-### `npm test`
+## Tech stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Frontend and dashboard:** React, React Router, Axios, and CSS
+- **Dashboard charts:** Chart.js and `react-chartjs-2`
+- **UI components:** Material UI (dashboard)
+- **Backend:** Node.js, Express, and Mongoose
+- **Database:** MongoDB
+- **Authentication:** JSON Web Tokens, cookies, and bcrypt password hashing
 
-### `npm run build`
+## Requirements
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Node.js and npm
+- MongoDB connection string
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Setup
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Install dependencies in each app:
 
-### `npm run eject`
+```bash
+cd frontend
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+cd ../dashboard
+npm install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+cd ../backend
+npm install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Create `backend/.env` with your MongoDB connection string and a private JWT
+signing key:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```dotenv
+MONGO_URL=mongodb://127.0.0.1:27017/zerodha
+TOKEN_KEY=replace-with-a-long-random-secret
+```
 
-## Learn More
+Do not commit real credentials or signing keys. `PORT` is optional; the API
+defaults to port `3002`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Run locally
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Start each app in a separate terminal from the repository root:
 
-### Code Splitting
+```bash
+cd backend
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+cd frontend
+npm start
+```
 
-### Analyzing the Bundle Size
+```bash
+cd dashboard
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The apps use these local addresses:
 
-### Making a Progressive Web App
+| App | Address |
+| --- | --- |
+| Public site | http://localhost:3000 |
+| Dashboard | http://localhost:3001 |
+| API | http://localhost:3002 |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The backend CORS configuration allows the public site and dashboard at these
+default origins. The browser apps call the API at `http://localhost:3002`.
 
-### Advanced Configuration
+## API endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| Method | Path | Description |
+| --- | --- | --- |
+| `GET` | `/` | API health greeting |
+| `GET` | `/allHoldings` | Return holdings |
+| `GET` | `/allPositions` | Return positions |
+| `POST` | `/newOrder` | Save an order |
+| `POST` | `/auth/signup` | Create an account |
+| `POST` | `/auth/login` | Log in |
+| `POST` | `/auth/` | Verify the authentication token |
 
-### Deployment
+Authentication uses JWT tokens stored in cookies. User and trading data are
+persisted in MongoDB.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Useful scripts
 
-### `npm run build` fails to minify
+Run these commands from the relevant app directory:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Directory | Command | Description |
+| --- | --- | --- |
+| `frontend/` or `dashboard/` | `npm start` | Start the React development server |
+| `frontend/` or `dashboard/` | `npm test` | Run the React test runner |
+| `frontend/` or `dashboard/` | `npm run build` | Create a production build |
+| `backend/` | `npm start` | Start the API with Nodemon |
