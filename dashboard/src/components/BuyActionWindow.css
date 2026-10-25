@@ -218,4 +218,56 @@
     background: #9b9b9b;
     color: #fff;
   }
+
+@media (max-width: 600px) {
+  #buy-window.container {
+    position: fixed;
+    top: 50%;
+    bottom: auto;
+    left: 50%;
+    width: min(94vw, 420px);
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translate(-50%, -50%);
+  }
+
+  #buy-window .regular-order {
+    padding: 16px;
+  }
+
+  #buy-window .inputs {
+    gap: 10px;
+  }
+
+  #buy-window .inputs fieldset {
+    flex: 1 1 0;
+    min-width: 0;
+    margin-right: 0;
+  }
+
+  #buy-window .inputs fieldset input {
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0;
+    padding: 0 8px;
+  }
+
+  #buy-window .buttons {
+    top: auto;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 0 16px 16px;
+  }
+
+  #buy-window .buttons > div {
+    display: flex;
+    gap: 8px;
+  }
+
+  #buy-window .btn {
+    margin: 0;
+    padding: 10px 14px;
+  }
+}
   
